@@ -1,50 +1,30 @@
-{
-    "kernelSource": {
-      "name": "frost-veux-kernel",
-      "repo": "https://github.com/frost-testzone/kernel_xiaomi_sm6375",
-      "branch": "main",
-      "device": "veux",
-      "defconfig": "vendor/veux-qgki_defconfig"
-    },
-    "withKernelSU": true,
-    "toolchains": [
-      {
-        "name": "android-clang",
-        "binPath": ["bin"]
-      }[
+[
   {
     "kernelSource": {
-      "name": "frost-veux-kernel",
+      "name": "kernel_xiaomi_sm6375",
       "repo": "https://github.com/frost-testzone/kernel_xiaomi_sm6375",
-      "branch": "main",
-      "device": "veux",
-      "defconfig": "vendor/veux-qgki_defconfig"
+      "branch": "main",  // or your actual branch name
+      "device": "sm6375",
+      "defconfig": "vendor/sm6375_defconfig"
     },
-    "withKernelSU": true,
     "toolchains": [
       {
-        "url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r547379.tar.gz",
-        "name": "clang-r547379",
+        "name": "aarch64-linux-android-4.9",
+        "repo": "https://github.com/frost-testzone/aarch64-linux-android-4.9",
+        "branch": "main",
         "binPath": ["bin"]
       }
     ],
-    "ccache": true,
     "params": {
       "ARCH": "arm64",
-      "CC": "clang-r547379/bin/clang",
+      "CC": "aarch64-linux-android-4.9/bin/aarch64-linux-android-gcc",
       "externalCommand": {
-        "CROSS_COMPILE": "aarch64-linux-gnu-",
-        "CROSS_COMPILE_ARM32": "arm-linux-gnueabi-",
-        "LD": "clang-r547379/bin/ld.lld",
-        "AR": "clang-r547379/bin/llvm-ar",
-        "NM": "clang-r547379/bin/llvm-nm",
-        "OBJCOPY": "clang-r547379/bin/llvm-objcopy",
-        "OBJDUMP": "clang-r547379/bin/llvm-objdump",
-        "STRIP": "clang-r547379/bin/llvm-strip",
-        "LLVM_IAS": "1",
-        "LLVM": "1"
+        "CROSS_COMPILE": "aarch64-linux-android-4.9/bin/aarch64-linux-android-",
+        "CROSS_COMPILE_ARM32": "arm-linux-androideabi-4.9/bin/arm-linux-androideabi-"
       }
     },
+    "ccache": true,
+    "withKernelSU": false,
     "AnyKernel3": {
       "use": true,
       "release": true,
@@ -53,28 +33,3 @@
     }
   }
 ]
-    ],
-    "ccache": true,
-    "params": {
-      "ARCH": "arm64",
-      "CC": "android-clang/bin/clang",
-      "externalCommand": {
-        "CROSS_COMPILE": "aarch64-linux-gnu-",
-        "CROSS_COMPILE_ARM32": "arm-linux-gnueabi-",
-        "LD": "android-clang/bin/ld.lld",
-        "AR": "android-clang/bin/llvm-ar",
-        "NM": "android-clang/bin/llvm-nm",
-        "OBJCOPY": "android-clang/bin/llvm-objcopy",
-        "OBJDUMP": "android-clang/bin/llvm-objdump",
-        "READELF": "android-clang/bin/llvm-readelf",
-        "OBJSIZE": "android-clang/bin/llvm-size",
-        "STRIP": "android-clang/bin/llvm-strip"
-      }
-    },
-    "AnyKernel3": {
-      "use": true,
-      "release": true,
-      "repo": "https://github.com/osm0sis/AnyKernel3",
-      "branch": "master"
-    }
-}
