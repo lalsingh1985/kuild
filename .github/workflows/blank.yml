@@ -54,11 +54,11 @@ jobs:
       useAnykernel: ${{ matrix.repos.AnyKernel3.use }}
       release: ${{ matrix.repos.AnyKernel3.release }}
     steps:
-            - name: "⭐ Install prerequisites"
+      - name: "⭐ Install prerequisites"
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev libfl-dev
-          sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python3 python3-dev  # Changed from python2 to python3
+          sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python3 python3-dev
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
 
       - name: "🚄 Create cache key from `repos`"
@@ -95,7 +95,6 @@ jobs:
       - name: "🌟 Clone kernel source => (${{ env.KERNEL_REPO }})"
         run: |
           git clone --recursive --depth=1 -j $(nproc) --branch $KERNEL_BRANCH $KERNEL_REPO $KERNEL_NAME
-
           echo "🤔 Clone kernel source => ($KERNEL_REPO)"
 
       - name: "💫 Get toolchains"
@@ -163,7 +162,6 @@ jobs:
             args="$args ARCH=$ARCH"
           fi
           if [ -n "$CC" ]; then
-
             if [[ "$CC" == *"/"* ]]; then
               CC=${{ env.WORKSPACE }}/$CC
             fi
@@ -207,27 +205,7 @@ jobs:
           echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/${{ env.arch }}/configs/${{ env.DEFCONFIG_NAME }}
 
           cat arch/${{ env.arch }}/configs/${{ env.DEFCONFIG_NAME }}
-      # - name: 开启lxc和docker配置
-      #   working-directory: ${{ env.KERNEL_NAME }}
-      #   env:
-      #     arch: ${{ steps.generate-args.outputs.ARCH }}
-      #   run: |
-      #     wget https://github.com/liangsai12/Android-Kernel-Builder-chopin/releases/download/1.0.0/add-lxc-docker-custom.sh
-      #     chmod 755 add-lxc-docker-custom.sh
-      #     ./add-lxc-docker-custom.sh arch/${{ env.arch }}/configs/${{ env.DEFCONFIG_NAME }}
-      #     echo "# CONFIG_ANDROID_PARANOID_NETWORK is not set" >> arch/${{ env.arch }}/configs/${{ env.DEFCONFIG_NAME }}
 
-      # - name: 添加runc补丁
-      #   working-directory: ${{ env.KERNEL_NAME }}
-      #   run: |
-      #     wget https://github.com/fate-think/LXC-DOCKER-KernelSU_Action/releases/download/1.0.0/runcpatch.sh
-      #     chmod a+x runcpatch.sh
-      #     if [ -f kernel/cgroup.c ]; then
-      #     ./runcpatch.sh kernel/cgroup.c               
-      #     fi
-      #     if [ -f kernel/cgroup/cgroup.c ]; then
-      #     ./runcpatch.sh kernel/cgroup/cgroup.c               
-      #     fi
       - name: "👍 Make defconfig"
         working-directory: ${{ env.KERNEL_NAME }}
         env:
