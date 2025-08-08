@@ -11,7 +11,48 @@
       {
         "name": "android-clang",
         "binPath": ["bin"]
+      }[
+  {
+    "kernelSource": {
+      "name": "frost-veux-kernel",
+      "repo": "https://github.com/frost-testzone/kernel_xiaomi_sm6375",
+      "branch": "main",
+      "device": "veux",
+      "defconfig": "vendor/veux-qgki_defconfig"
+    },
+    "withKernelSU": true,
+    "toolchains": [
+      {
+        "url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r547379.tar.gz",
+        "name": "clang-r547379",
+        "binPath": ["bin"]
       }
+    ],
+    "ccache": true,
+    "params": {
+      "ARCH": "arm64",
+      "CC": "clang-r547379/bin/clang",
+      "externalCommand": {
+        "CROSS_COMPILE": "aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "arm-linux-gnueabi-",
+        "LD": "clang-r547379/bin/ld.lld",
+        "AR": "clang-r547379/bin/llvm-ar",
+        "NM": "clang-r547379/bin/llvm-nm",
+        "OBJCOPY": "clang-r547379/bin/llvm-objcopy",
+        "OBJDUMP": "clang-r547379/bin/llvm-objdump",
+        "STRIP": "clang-r547379/bin/llvm-strip",
+        "LLVM_IAS": "1",
+        "LLVM": "1"
+      }
+    },
+    "AnyKernel3": {
+      "use": true,
+      "release": true,
+      "repo": "https://github.com/osm0sis/AnyKernel3",
+      "branch": "master"
+    }
+  }
+]
     ],
     "ccache": true,
     "params": {
