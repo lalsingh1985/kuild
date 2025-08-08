@@ -110,6 +110,16 @@ jobs:
         run: |
           toolchains_num="$(echo $toolchains | jq 'length')"
           echo "🤔 There is $toolchains_num defined toolchains."
+          
+          # Add Android Clang toolchain
+          echo "Downloading Android Clang toolchain..."
+          mkdir -p android-clang
+          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main.tar.gz -O android-clang.tar.gz
+          tar -xzf android-clang.tar.gz -C android-clang
+          echo "$WORKSPACE/android-clang/bin" >> $GITHUB_PATH
+          echo "$WORKSPACE/android-clang" >> $GITHUB_PATH
+          
+          # Process other toolchains from config
           for ((i=0;i<toolchains_num;i++)); do
             toolchain_name=$(echo $toolchains | jq -r ".[$i].name")
             toolchain_repo=$(echo $toolchains | jq -r ".[$i].repo")
@@ -147,7 +157,6 @@ jobs:
               echo "$WORKSPACE/$toolchain_name/$bin_path" >> $GITHUB_PATH
             done
           done
-
       - name: "😎 Set args"
         id: generate-args
         env:
